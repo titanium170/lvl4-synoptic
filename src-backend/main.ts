@@ -10,7 +10,7 @@ function createWindow() {
       nodeIntegration: true
     },
     width: 800,
-    // frame: false
+    frame: false
   });
 
   // and load the index.html of the app.
