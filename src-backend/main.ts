@@ -5,23 +5,24 @@ function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     height: 600,
-    icon: path.join(__dirname, '../dist/favicon.png'),
+    icon: path.join(__dirname, '../dist/favicon.ico'),
     webPreferences: {
       nodeIntegration: true
     },
     width: 800,
-    frame: false
+    // frame: false
   });
 
   // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
+  // mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
+  mainWindow.loadURL('http://localhost:4200/');
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
 }
 
 // This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
+// initialization and is ready to create browser windows. 
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   createWindow();
