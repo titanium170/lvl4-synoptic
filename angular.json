@@ -33,12 +33,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [
-              {
-                "inject": false,
-                "input": "main.js"
-              }
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {

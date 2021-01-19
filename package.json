@@ -1,11 +1,11 @@
 {
   "name": "synoptic-media-player",
   "version": "0.0.0",
-  "main": "main.js",
+  "main": "dist/main.js",
   "scripts": {
     "ng": "ng",
     "start": "concurrently -k \"ng serve\" \"npm run electron\"",
-    "build": "ng build",
+    "build": "ng build --prod --base-href ./ && tsc --lib ES2018,DOM --target ES5 src-backend/main.ts --outDir dist",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -14,8 +14,8 @@
     "clean": "rimraf dist",
     "start:electron": "ng build --base-href ./ && electron .",
     "postinstall": "ngcc",
-    "pack": "ng build --base-href ./ --prod && electron-packager . --asar --prune --out=release --overwrite",
-    "pack-mac": "ng build --base-href ./ --prod && electron-packager . --platform='darwin' --arch='x64' --asar --prune --out=release --overwrite"
+    "package": "npm run build && electron-packager . rglynn-music-player --out=release --overwrite --asar --ignore=^e2e$ --ignore=^src$ --ignore=^src-backend$ --ignore=^.editorconfig$ --ignore=^.gitignore$ --ignore=^angular.json$ --ignore=^browserslist$ --ignore=^karma.conf.js$ --ignore=^package-lock.json$ --ignore=^README.md$ --ignore=^tslint --ignore=^tsconfig",
+    "package-mac": "npm run build && electron-packager . rglynn-music-player --platform=darwin --arch=x64 --out=release --overwrite --asar --ignore=^e2e$ --ignore=^src$ --ignore=^src-backend$ --ignore=^.editorconfig$ --ignore=^.gitignore$ --ignore=^angular.json$ --ignore=^browserslist$ --ignore=^karma.conf.js$ --ignore=^package-lock.json$ --ignore=^README.md$ --ignore=^tslint --ignore=^tsconfig"
   },
   "private": true,
   "dependencies": {
