@@ -36,7 +36,7 @@
             "scripts": [
               {
                 "inject": false,
-                "input": "src/app.js"
+                "input": "main.js"
               }
             ]
           },

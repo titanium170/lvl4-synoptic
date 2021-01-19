@@ -4,6 +4,8 @@
 /dist
 /tmp
 /out-tsc
+/synoptic-media-player-win32-x64
+/release
 # Only exists if Bazel was run
 /bazel-out
 

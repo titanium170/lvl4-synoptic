@@ -1,6 +1,8 @@
 const { app, BrowserWindow } = require('electron');
 const path = require("path");
 const url = require("url");
+const mm = require('music-metadata');
+const util = require('util');
 
 function createWindow () {
   const win = new BrowserWindow({
@@ -12,15 +14,26 @@ function createWindow () {
     frame: false
   });
 
-  // win.loadFile('dist/index.html');
-  win.loadURL('http://localhost:4200');
+  win.loadURL(
+    url.format({
+      pathname: path.join(__dirname, `/dist/index.html`),
+      protocol: "file:",
+      slashes: true
+    })
+  );
+
+  // win.loadURL('http://localhost:4200');
 
   win.webContents.openDevTools()
 }
 
 
 
-app.whenReady().then(createWindow);
+app.whenReady().then(
+  () =>  {
+    createWindow();
+    
+  });
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
