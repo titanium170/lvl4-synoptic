@@ -10,8 +10,7 @@ export class AppComponent {
   title = 'synoptic-media-player';
 
   constructor(@Inject(BACKEND_SERVICE) private backend: IBackendService) {
-    backend.getFile('test').subscribe(m => console.log(m));
-    console.log('backend: ', backend);
+    backend.getFile('C:\\Users\\Robbie\\Documents\\Apprenticeship\\Level 4\\synoptic-project\\synoptic-media-player\\Star Chart.mp3').subscribe(m => console.log(m));
   }
 
 }

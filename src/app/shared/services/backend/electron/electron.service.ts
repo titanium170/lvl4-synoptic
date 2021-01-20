@@ -10,9 +10,9 @@ export class ElectronCommsService implements IBackendService {
   constructor(private electron: ElectronService) { }
 
   getFile(path: string): Observable<File> {
-    this.electron.ipcRenderer.send('get-file', { path });
+    this.electron.ipcRenderer.send('get-file-request', path);
     const gotFile$: Subject<File> = new Subject();
-    this.electron.ipcRenderer.once('got-file', (event: IpcRendererEvent, file: File) => {
+    this.electron.ipcRenderer.once('got-file-response', (event: IpcRendererEvent, file: File) => {
       gotFile$.next(file);
     });
     return gotFile$.asObservable();

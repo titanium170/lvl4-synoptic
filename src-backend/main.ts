@@ -1,11 +1,13 @@
 import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
+import { startup } from './startup';
+
 
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     height: 600,
-    icon: path.join(__dirname, '../dist/favicon.ico'),
+    // icon: path.join(__dirname, '../dist/favicon.ico'),
     webPreferences: {
       nodeIntegration: true
     },
@@ -26,7 +28,7 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   createWindow();
-
+  startup();
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
