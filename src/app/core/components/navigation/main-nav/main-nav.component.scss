@@ -27,3 +27,8 @@
 .spacer {
     flex: 1;
 }
+
+.draggable {
+    width: 100%;
+    -webkit-app-region: drag;
+}

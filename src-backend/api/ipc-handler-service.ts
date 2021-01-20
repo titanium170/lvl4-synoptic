@@ -17,9 +17,9 @@ export class IpcHandlerService {
 
   handleGetFileRequest(event: IpcMainEvent, path: string) {
     this.fileService.getFile(path).then((file: MatchedFile) => {
-      this.musicService.getMusicMetadata(file.content)
-        .then(parsedFile => event.sender.send('got-file-response', parsedFile));
-
+      // this.musicService.getMusicMetadata(file.content)
+      //   .then(parsedFile => event.sender.send('got-file-response', parsedFile));
+      event.sender.send('got-file-response', file);
     });
   }
 

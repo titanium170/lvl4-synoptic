@@ -1,18 +1,17 @@
 import { v4 as uuidv4 } from 'uuid';
+import { TrackedEntitiy } from './tracked-entity';
 
 export interface IMediaFile {
-  id: string;
   path: string;
   type: string;
 }
 
-export class MediaFile implements IMediaFile {
-  public id: string;
+export class MediaFile extends TrackedEntitiy implements IMediaFile {
   public path: string;
   public type: string;
 
   constructor(path: string, type: string) {
-    this.id = uuidv4();
+    super();
     this.path = path;
     this.type = type;
   }

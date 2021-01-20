@@ -1,0 +1,20 @@
+<div class="music-player__container">
+  <div class="previous">
+    <button mat-icon-button aria-label="Previous" (click)="prev()">
+      <mat-icon inline="true">skip_previous</mat-icon>
+    </button>
+  </div>
+  <div class="play-pause">
+    <button mat-icon-button aria-label="Play" (click)="play()" *ngIf="!(playing$ | async)">
+      <mat-icon inline="true">play_arrow</mat-icon>
+    </button>
+    <button mat-icon-button aria-label="Pause" (click)="pause()" *ngIf="(playing$ | async)">
+      <mat-icon inline="true">pause</mat-icon>
+    </button>
+  </div>
+  <div class="next">
+    <button mat-icon-button aria-label="Play" (click)="next()">
+      <mat-icon inline="true">skip_next</mat-icon>
+    </button>
+  </div>
+</div>

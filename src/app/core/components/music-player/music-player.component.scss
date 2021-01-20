@@ -1,0 +1,19 @@
+.music-player__container {
+    background-color: white;
+    // text-align: center;
+    height: 100%;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+button {
+    color: rgba($color: #000000, $alpha: 0.5);
+    font-size: 3rem;
+}
+
+.play-pause {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
