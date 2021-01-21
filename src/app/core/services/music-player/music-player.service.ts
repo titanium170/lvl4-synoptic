@@ -1,6 +1,6 @@
-import { first } from 'rxjs/operators';
+import { filter, first, map, mapTo, shareReplay, tap } from 'rxjs/operators';
 import { QueueManagerService, QueueSettings } from './../queue-manager/queue-manager.service';
-import { Observable, ReplaySubject, Subject } from 'rxjs';
+import { interval, Observable, ReplaySubject, Subject } from 'rxjs';
 import { Inject, Injectable } from '@angular/core';
 import { BACKEND_SERVICE, IBackendService } from './../../../shared/services/backend/backend.service';
 import { Howl } from 'howler';
@@ -11,6 +11,7 @@ import { Queue } from 'src/app/models/queue';
   providedIn: 'root'
 })
 export class MusicPlayerService {
+
 
   public get isPlaying$(): Observable<boolean> {
     return this.playing$.asObservable();
@@ -28,12 +29,26 @@ export class MusicPlayerService {
 
   private _playing = false;
 
+  private position$!: Observable<number>;
+
+  private currentTrack$: ReplaySubject<Track>;
+
+  private set currentTrack(track: Track) {
+    this.currentTrack$.next(track);
+    this._currentTrack = track;
+  }
+  private get currentTrack(): Track {
+    return this._currentTrack;
+  }
+
+  private _currentTrack!: Track;
+
+
   private defaultSongUrl1 = 'C:\\Users\\Robbie\\Documents\\Apprenticeship\\Level 4\\synoptic-project\\synoptic-media-player\\Star Chart.mp3';
   private defaultSongUrl2 = 'C:\\Users\\Robbie\\Documents\\Apprenticeship\\Level 4\\synoptic-project\\synoptic-media-player\\lvl4-synoptic\\src\\assets\\Shiena Nishizawa - The Asterisk War .mp3';
 
   private howl!: Howl;
 
-  private currentTrack!: Track;
   private volume: number = 100;
 
   constructor(
@@ -41,8 +56,19 @@ export class MusicPlayerService {
     private queue: QueueManagerService
   ) {
     this.playing$ = new ReplaySubject(1);
+    this.currentTrack$ = new ReplaySubject(1);
     this.setDefaults();
     this.trackQueueChanges();
+    this.trackPosition();
+  }
+
+
+  public getCurrentTrack(): Observable<Track> {
+    return this.currentTrack$.asObservable();
+  }
+
+  public getPosition(): Observable<number> {
+    return this.position$;
   }
 
   setDefaults(): void {
@@ -57,6 +83,7 @@ export class MusicPlayerService {
         name: 'Star Chart',
         artist: 'nano.RIPE',
         album: 'Sankaku EP',
+        duration: 276,
         file: { path: this.defaultSongUrl1, type: 'mp3' }
       },
       {
@@ -64,6 +91,7 @@ export class MusicPlayerService {
         name: 'The Asterisk War',
         artist: 'Shiena Nishizawa',
         album: 'The Asterisk War',
+        duration: 207,
         file: { path: this.defaultSongUrl2, type: 'mp3' }
       }
     ]);
@@ -123,6 +151,12 @@ export class MusicPlayerService {
   changeVolume(vol: number): void {
     this.volume = vol;
     this.howl.volume(vol / 100);
+  }
+
+  private trackPosition(): void {
+    this.position$ = interval(200).pipe(
+      map(() => this.howl.seek() as number),
+      filter(() => this.playing));
   }
 
   private trackQueueChanges(): void {

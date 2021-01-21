@@ -1,7 +1,9 @@
-import { Observable } from 'rxjs';
+import { Observable, zip } from 'rxjs';
 import { MusicPlayerService } from './../../services/music-player/music-player.service';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
 import { MatSliderChange } from '@angular/material/slider';
+import { Track } from 'src/app/models/track';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-music-player',
@@ -11,11 +13,24 @@ import { MatSliderChange } from '@angular/material/slider';
 export class MusicPlayerComponent implements OnInit {
 
   public playing$: Observable<boolean>;
+  public currentTrack$: Observable<Track>;
+  public currentPos$: Observable<number>;
+  public positionPercentage$: Observable<number>;
   public shuffleToggled = false;
   public volume = 100;
 
-  constructor(private playerService: MusicPlayerService) {
+  constructor(private playerService: MusicPlayerService, private cd: ChangeDetectorRef) {
     this.playing$ = this.playerService.isPlaying$;
+    this.currentTrack$ = this.playerService.getCurrentTrack();
+    this.currentPos$ = this.playerService.getPosition();
+    this.positionPercentage$ = this.currentTrack$.pipe(switchMap(track => {
+      console.log('got value!');
+      return this.currentPos$.pipe(map(pos => (pos / (track.duration ?? 0)) * 100), tap(v => {
+        console.log('percentage ', v);
+        cd.detectChanges();
+      }));
+
+    }));
   }
 
 
