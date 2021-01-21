@@ -27,6 +27,7 @@ export class LocalStoreService {
       if (!store) {
         store = { tracks: [], playlists: [] } as LocalStore;
       }
+      console.log('store: ', store);
       this.store = store;
       this.onReady$.next();
     }, err => {
@@ -50,6 +51,7 @@ export class LocalStoreService {
   }
 
   public saveTracks(tracks: Track[]): Observable<Track[]> {
+    debugger;
     return this.onReady().pipe(switchMap(() => {
       for (const track of tracks) {
         if (!this.store.tracks.map(t => t.id).includes(track.id)) {
@@ -74,12 +76,18 @@ export class LocalStoreService {
 
 
   private getStore(): Observable<LocalStore> {
-    return this.backend.getFile('appdata').pipe(switchMap(store =>
-      from(store.text()).pipe(map(text => JSON.parse(text)))
+    return this.backend.getFile('appdata').pipe(switchMap(store => {
+      return from((store.file as File).text()).pipe(map(text => {
+        return JSON.parse(text);
+      }));
+    }
     ));
   }
 
   private saveStore(): Observable<null> {
+    if (!this.store) {
+      this.store = { tracks: [], playlists: [] } as LocalStore;
+    }
     return this.backend.saveFile('appdata', JSON.stringify(this.store));
   }
 

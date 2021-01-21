@@ -51,9 +51,11 @@ export class FileService {
     return new Promise((resolve, reject) => {
       if (path.includes('appdata') && process.env.APPDATA) {
         path = join(process.env.APPDATA, 'rglynn-synoptic/store.json')
-        mkdir(join(process.env.APPDATA, 'rglynn-synoptic'), (err: NodeJS.ErrnoException | null) => {
+        mkdir(join(process.env.APPDATA, 'rglynn-synoptic'), { recursive: true }, (err: NodeJS.ErrnoException | null) => {
           if (err) {
-            return reject(err);
+            if (!err.message.includes('EEXIST')) {
+              return reject(err);
+            }
           }
           writeFile(path, content, (err: NodeJS.ErrnoException | null) => {
             if (err) {

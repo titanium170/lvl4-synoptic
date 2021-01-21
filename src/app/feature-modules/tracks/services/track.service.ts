@@ -40,13 +40,11 @@ export class TrackService {
   }
 
   public addTracks(): Observable<Track[]> {
-    debugger;
     return this.mediaService.getUserSelectedMedia().pipe(switchMap(files => {
       const tracks: Track[] = [];
       for (const file of files) {
         tracks.push(this.parseMediaFileData(file));
       }
-      debugger;
       return this.store.saveTracks(tracks);
     }));
   }

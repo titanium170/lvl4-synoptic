@@ -10,14 +10,14 @@ export enum SupportedBackends {
   electron = 'electron'
 }
 
-export interface BlobFile {
+export interface FileWithPath {
   path: string;
-  : Blob
+  file: Blob | File | string;
 }
 
 export interface IBackendService {
-  getFile: (path?: string) => Observable<File>;
-  userSelectFiles: () => Observable<File[]>;
+  getFile: (path?: string) => Observable<FileWithPath>;
+  userSelectFiles: () => Observable<FileWithPath[]>;
   saveFile: (path: string, file: File | string) => Observable<null>;
 }
 
