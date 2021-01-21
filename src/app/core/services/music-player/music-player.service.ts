@@ -34,6 +34,7 @@ export class MusicPlayerService {
   private howl!: Howl;
 
   private currentTrack!: Track;
+  private volume: number = 100;
 
   constructor(
     @Inject(BACKEND_SERVICE) private backend: IBackendService,
@@ -78,7 +79,7 @@ export class MusicPlayerService {
       this.howl = new Howl({
         src: url,
         format: ['mp3'],
-        volume: 1
+        volume: this.volume / 100
       });
       if (this.playing) {
         this.howl.play();
@@ -116,6 +117,12 @@ export class MusicPlayerService {
 
   toggleShuffle(): void {
     this.queue.config({ shuffle: true } as QueueSettings);
+  }
+
+  // doesn't update UI
+  changeVolume(vol: number): void {
+    this.volume = vol;
+    this.howl.volume(vol / 100);
   }
 
   private trackQueueChanges(): void {

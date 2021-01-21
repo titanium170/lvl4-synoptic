@@ -47,6 +47,7 @@ export class MusicPlayerComponent implements OnInit {
 
   changeVolume(change: MatSliderChange): void {
     this.volume = change.value ?? this.volume;
+    this.playerService.changeVolume(this.volume);
   }
 
 }
