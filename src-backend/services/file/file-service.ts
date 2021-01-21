@@ -1,30 +1,26 @@
 import { dialog } from 'electron';
 import { OpenDialogReturnValue } from 'electron/main';
-import { readFile } from 'fs';
+import { mkdir, readFile, writeFile } from 'fs';
 import { glob } from 'glob';
-import { IAudioMetadata } from 'music-metadata';
-
-export interface MatchedFile {
-  path: string;
-  content: Buffer;
-  metadata: IAudioMetadata;
-}
-
+import { join } from 'path';
 
 export class FileService {
 
   constructor() { }
 
 
-  getFile(path: string): Promise<MatchedFile> {
+  getFile(path: string): Promise<File> {
     const paths = [];
     if (path) {
+      if (path.includes('appdata') && process.env.APPDATA) {
+        path = join(process.env.APPDATA, 'rglynn-synoptic/store.json')
+      }
       paths.push(path);
     }
     return this.getFiles(paths).then(files => files[0]);
   }
 
-  getFiles(paths: string[]): Promise<MatchedFile[]> {
+  getFiles(paths: string[]): Promise<File[]> {
     if (paths?.length) {
       return this.readFiles(paths);
     }
@@ -38,17 +34,47 @@ export class FileService {
     });
   }
 
-  getFilesInDirectory(args: any[]): Promise<MatchedFile[]> {
+  getFilesInDirectory(args: any[]): Promise<File[]> {
     return new Promise((resolve, reject) => {
       glob(`${args[0]}/**/*${args[1]}`, {}, (err, files) => {
         if (err) {
           console.error(err);
           reject(err);
         } else {
-          this.getFiles(files).then(matchedFiles => resolve(matchedFiles));
+          this.getFiles(files).then(Files => resolve(Files));
         }
       });
     });
+  }
+
+  saveFile(path: string, content: string): Promise<null> {
+    return new Promise((resolve, reject) => {
+      if (path.includes('appdata') && process.env.APPDATA) {
+        path = join(process.env.APPDATA, 'rglynn-synoptic/store.json')
+        mkdir(join(process.env.APPDATA, 'rglynn-synoptic'), (err: NodeJS.ErrnoException | null) => {
+          if (err) {
+            return reject(err);
+          }
+          writeFile(path, content, (err: NodeJS.ErrnoException | null) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(null);
+            }
+          });
+        })
+      } else {
+        writeFile(path, content, (err: NodeJS.ErrnoException | null) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(null);
+          }
+        });
+      }
+
+
+    })
   }
 
   private openFileDialog(): Promise<OpenDialogReturnValue> {
@@ -66,22 +92,26 @@ export class FileService {
     });
   }
 
-  private readFiles(paths: string[]): Promise<MatchedFile[]> {
+  private readFiles(paths: string[]): Promise<File[]> {
     return new Promise((resolve, reject) => {
-      const files: MatchedFile[] = [];
+      const files: File[] = [];
       for (const filePath of paths) {
-        readFile(filePath, (err: NodeJS.ErrnoException | null, content: Buffer) => {
+        readFile(filePath, (err: NodeJS.ErrnoException | null, fileContent: Buffer) => {
           if (err) {
             console.error(err);
+            return reject(err);
           } else {
-            files.push({ path: filePath, content, metadata: {} as IAudioMetadata });
+            const file = { content: fileContent } as unknown as File;
+            file.path = filePath;
+            files.push(file);
           }
           if (files.length === paths.length) {
-            resolve(files);
+            return resolve(files);
           }
         });
       }
     });
   }
+
 
 }

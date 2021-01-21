@@ -1,9 +1,14 @@
-import { v4 as uuidv4 } from 'uuid';
+import { IAudioMetadata } from 'music-metadata';
 import { TrackedEntitiy } from './tracked-entity';
 
 export interface IMediaFile {
   path: string;
   type: string;
+}
+
+export interface MediaFileData extends IMediaFile {
+  content: Blob;
+  metadata: IAudioMetadata;
 }
 
 export class MediaFile extends TrackedEntitiy implements IMediaFile {

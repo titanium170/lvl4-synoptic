@@ -1,3 +1,4 @@
+import { MediaService } from './../../../shared/services/media/media.service';
 import { filter, first, map, mapTo, shareReplay, tap } from 'rxjs/operators';
 import { QueueManagerService, QueueSettings } from './../queue-manager/queue-manager.service';
 import { interval, Observable, ReplaySubject, Subject } from 'rxjs';
@@ -50,7 +51,7 @@ export class MusicPlayerService {
   private volume: number = 100;
 
   constructor(
-    @Inject(BACKEND_SERVICE) private backend: IBackendService,
+    private mediaService: MediaService,
     private queue: QueueManagerService,
     private trackService: TrackService
   ) {
@@ -78,7 +79,7 @@ export class MusicPlayerService {
   }
 
   changeTrack(track: Track): void {
-    this.backend.getFile(track.file.path).pipe(first()).subscribe(media => {
+    this.mediaService.getMediaFile(track.file.path).pipe(first()).subscribe(media => {
       const url = URL.createObjectURL(media.content);
       this.currentTrack = track;
       if (this.playing) {

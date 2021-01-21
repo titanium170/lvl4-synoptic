@@ -10,16 +10,15 @@ export enum SupportedBackends {
   electron = 'electron'
 }
 
-export interface MediaDataFile {
+export interface BlobFile {
   path: string;
-  content: Blob;
-  metadata: IAudioMetadata;
+  : Blob
 }
 
 export interface IBackendService {
-  getFile: (path?: string) => Observable<MediaDataFile>;
-  userSelectFiles: () => Observable<MediaDataFile[]>;
-  saveFile: (path: string, file: File) => Observable<void>;
+  getFile: (path?: string) => Observable<File>;
+  userSelectFiles: () => Observable<File[]>;
+  saveFile: (path: string, file: File | string) => Observable<null>;
 }
 
 export const BACKEND_SERVICE: InjectionToken<IBackendService> = new InjectionToken('empty');

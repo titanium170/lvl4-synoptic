@@ -1,5 +1,4 @@
 import { MusicService } from './../services/music/music-service';
-import { MatchedFile } from '../services/file/file-service';
 import { ipcMain, IpcMainEvent } from 'electron';
 import { FileService } from '../services/file/file-service';
 
@@ -10,48 +9,44 @@ export class IpcHandlerService {
   }
 
   listen() {
-    ipcMain.on('get-file-request', this.handleGetFileRequest.bind(this));
-    ipcMain.on('get-files-request', this.handleGetMultipleFilesRequest.bind(this));
-    ipcMain.on('get-user-selected-files-request', this.handleGetUserSelectedFilesRequest.bind(this));
-    ipcMain.on('get-directory-files-request', this.handleGetDirectoryFilesRequest.bind(this));
+    ipcMain.on('file-request', this.handleGetFileRequest.bind(this));
+    ipcMain.on('files-request', this.handleGetMultipleFilesRequest.bind(this));
+    ipcMain.on('user-selected-files-request', this.handleGetUserSelectedFilesRequest.bind(this));
+    ipcMain.on('directory-files-request', this.handleGetDirectoryFilesRequest.bind(this));
+    ipcMain.on('save-file-request', this.handleSaveFileRequest.bind(this));
   }
 
   handleGetFileRequest(event: IpcMainEvent, path: string = '') {
-    this.fileService.getFile(path).then((file: MatchedFile) => {
-      this.musicService.getMusicMetadata(file.content)
-        .then(metadata => {
-          file.metadata = metadata;
-          event.sender.send('got-file-response', file);
-        });
-    });
+    this.fileService.getFile(path).then((file: File) => {
+      event.sender.send('file-response', file);
+    },
+      err => {
+        event.sender.send('file-request-err', err);
+      });
   }
 
   handleGetMultipleFilesRequest(event: IpcMainEvent, args: any[]) {
-    this.fileService.getFiles(args).then((files: MatchedFile[]) => {
-      event.sender.send('got-files-response', files);
+    this.fileService.getFiles(args).then((files: File[]) => {
+      event.sender.send('files-response', files);
     });
   }
 
   handleGetUserSelectedFilesRequest(event: IpcMainEvent) {
-    this.fileService.getFiles([]).then((files: MatchedFile[]) => {
-      const mediaFiles: MatchedFile[] = [];
-      for (const file of files) {
-        this.musicService.getMusicMetadata(file.content).then(metadata => {
-          file.metadata = metadata;
-          mediaFiles.push(file);
-          if (mediaFiles.length === files.length) {
-            event.sender.send('got-user-selected-files-response', mediaFiles);
-          }
-        });
-      }
+    this.fileService.getFiles([]).then((files: File[]) => {
+      event.sender.send('user-selected-files-response', files);
     });
   }
 
   handleGetDirectoryFilesRequest(event: IpcMainEvent, args: any[]) {
-    this.fileService.getFilesInDirectory(args).then((files: MatchedFile[]) => {
-      event.sender.send('got-directory-files-response', files);
+    this.fileService.getFilesInDirectory(args).then((files: File[]) => {
+      event.sender.send('directory-files-response', files);
     });
   }
 
+  handleSaveFileRequest(event: IpcMainEvent, args: { path: string, content: string }) {
+    this.fileService.saveFile(args.path, args.content).then(saved => {
+      event.sender.send('save-file-response', saved);
+    })
+  }
 
 }

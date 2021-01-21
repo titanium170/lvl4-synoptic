@@ -33,6 +33,7 @@
     "howler": "^2.2.1",
     "lodash-es": "^4.17.20",
     "music-metadata": "^7.6.4",
+    "music-metadata-browser": "^2.2.0",
     "ngx-electron": "^2.2.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
