@@ -1,19 +1,96 @@
+@import "~src/styles.scss";
+
 .music-player__container {
     background-color: white;
     // text-align: center;
     height: 100%;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
     display: flex;
-    justify-content: center;
 }
 
+
 button {
-    color: rgba($color: #000000, $alpha: 0.5);
-    font-size: 3rem;
+    color: rgba($color: #000000, $alpha: 0.5) !important;
+    font-size: 2rem !important;
 }
 
 .play-pause {
     margin-left: 1rem;
     margin-right: 1rem;
+}
+
+.shuffle {
+    color: rgba($color: #000000, $alpha: 0.3);
+
+    & button {
+        font-size: 1.8rem !important;
+        margin-right: 0.75rem;
+        position: relative;
+        top: 0.1rem;
+    }
+}
+
+.shuffle-toggled {
+    color: $primary !important;
+
+    &:after {
+        content: "\A";
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: $primary;
+        display: inline-block;
+        transform: translate(-18px, 10px);
+    }
+}
+
+.control-group {
+    display: flex;
+    justify-content: center;
+    flex: 1 1 33%;
+}
+
+.secondary-controls {
+    justify-content: left;
+}
+
+.track-info div {
+    justify-content: center;
+}
+
+.track-image {
+    flex: 1 1 10%;
+    text-align: center;
+}
+
+.track-art {
+    background-color: rgba($color: #000000, $alpha: 0.1);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
+
+.track-name {
+    color: rgba($color: #000000, $alpha: 0.8);
+    font-size: 0.9rem;
+}
+
+.track-artist {
+    color: rgba($color: #000000, $alpha: 0.5);
+    font-size: 0.8rem;
+}
+
+p {
+    margin-bottom: 0px;
+}
+
+.volume {
+    color: rgba($color: #000000, $alpha: 0.5) !important;
+    font-size: 1.8rem !important;
+
+    & .mat-icon {
+        top: 0.25rem;
+        position: relative;
+    }
 }

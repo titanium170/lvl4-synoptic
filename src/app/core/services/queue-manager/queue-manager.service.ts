@@ -3,6 +3,7 @@ import { ReplaySubject, Observable } from 'rxjs';
 import { first, tap } from 'rxjs/operators';
 import { Queue } from 'src/app/models/queue';
 import { Track } from 'src/app/models/track';
+import { shuffle } from 'lodash-es';
 
 export interface QueueSettings {
   loop: boolean;
@@ -29,6 +30,10 @@ export class QueueManagerService {
 
   public getQueue(): Observable<Queue> {
     return this.queue$.asObservable();
+  }
+
+  public config(settings: QueueSettings): void {
+    this.settings = { ...this.settings, ...settings };
   }
 
   // note q.length is not being updated
@@ -83,6 +88,9 @@ export class QueueManagerService {
   public next(): void {
     this.queue$.pipe(first()).subscribe(q => {
       if (q.tracklist.length) {
+        if (this.settings.shuffle) {
+          q.tracklist = shuffle(q.tracklist);
+        }
         q.prev = q.current;
         q.current = q.next;
         q.next = this.getNext(q.tracklist, q.tracklist.map(t => t.id).indexOf(q.current.id) + 1);
@@ -94,6 +102,9 @@ export class QueueManagerService {
   public prev(): void {
     this.queue$.pipe(first()).subscribe(q => {
       if (q.tracklist.length) {
+        if (this.settings.shuffle) {
+          q.tracklist = shuffle(q.tracklist);
+        }
         q.next = q.current;
         q.current = q.prev;
         q.prev = this.getPrev(q.tracklist, q.tracklist.map(t => t.id).indexOf(q.current.id) - 1);

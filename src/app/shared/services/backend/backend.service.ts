@@ -10,7 +10,7 @@ export enum SupportedBackends {
 }
 
 export interface IBackendService {
-  getFile: (path: string) => Observable<File>;
+  getFile: (path: string) => Observable<Blob>;
   saveFile: (path: string, file: File) => Observable<void>;
 }
 
