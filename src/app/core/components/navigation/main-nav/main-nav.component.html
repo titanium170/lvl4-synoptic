@@ -3,7 +3,16 @@
     <mat-icon>menu</mat-icon>
   </button>
   <div class="draggable">
-    <span>Welcome test</span>
+    <span>{{title}}</span>
     <div class="spacer"></div>
+  </div>
+  <div style="float: right;">
+    <button mat-icon-button color="white" aria-label="Sorting options" [matMenuTriggerFor]="menu">
+      <mat-icon>sort</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>Sort by A-Z</button>
+      <button mat-menu-item>Sort by Album</button>
+    </mat-menu>
   </div>
 </div>

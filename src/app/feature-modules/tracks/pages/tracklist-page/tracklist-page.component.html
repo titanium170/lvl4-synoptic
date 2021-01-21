@@ -1,1 +1,8 @@
-<p>tracklist-page works!</p>
+<div class="tracklist__container">
+  <div class="tracklist" *ngIf="tracks$ | async as tracks">
+    <ng-container *ngFor="let track of tracks">
+      <app-track [track]="track"></app-track>
+    </ng-container>
+  </div>
+  <app-add-track></app-add-track>
+</div>

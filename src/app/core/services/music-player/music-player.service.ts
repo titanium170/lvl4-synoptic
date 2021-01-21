@@ -6,6 +6,7 @@ import { BACKEND_SERVICE, IBackendService } from './../../../shared/services/bac
 import { Howl } from 'howler';
 import { Track } from 'src/app/models/track';
 import { Queue } from 'src/app/models/queue';
+import { TrackService } from 'src/app/feature-modules/tracks/services/track.service';
 
 @Injectable({
   providedIn: 'root'
@@ -44,21 +45,18 @@ export class MusicPlayerService {
   private _currentTrack!: Track;
 
 
-  private defaultSongUrl1 = 'C:\\Users\\Robbie\\Documents\\Apprenticeship\\Level 4\\synoptic-project\\synoptic-media-player\\Star Chart.mp3';
-  private defaultSongUrl2 = 'C:\\Users\\Robbie\\Documents\\Apprenticeship\\Level 4\\synoptic-project\\synoptic-media-player\\lvl4-synoptic\\src\\assets\\Shiena Nishizawa - The Asterisk War .mp3';
-
   private howl!: Howl;
 
   private volume: number = 100;
 
   constructor(
     @Inject(BACKEND_SERVICE) private backend: IBackendService,
-    private queue: QueueManagerService
+    private queue: QueueManagerService,
+    private trackService: TrackService
   ) {
     this.playing$ = new ReplaySubject(1);
     this.currentTrack$ = new ReplaySubject(1);
     this.setDefaults();
-    this.trackQueueChanges();
     this.trackPosition();
   }
 
@@ -73,36 +71,18 @@ export class MusicPlayerService {
 
   setDefaults(): void {
     this.playing$.next(false);
-    this.queue.replaceQueue(this.getTestingDefaults());
-  }
-
-  getTestingDefaults(): Queue {
-    return new Queue([
-      {
-        id: '1',
-        name: 'Star Chart',
-        artist: 'nano.RIPE',
-        album: 'Sankaku EP',
-        duration: 276,
-        file: { path: this.defaultSongUrl1, type: 'mp3' }
-      },
-      {
-        id: '2',
-        name: 'The Asterisk War',
-        artist: 'Shiena Nishizawa',
-        album: 'The Asterisk War',
-        duration: 207,
-        file: { path: this.defaultSongUrl2, type: 'mp3' }
-      }
-    ]);
+    this.trackService.getTracks().subscribe(tracks => {
+      this.queue.replaceQueue(new Queue(tracks));
+      this.trackQueueChanges();
+    });
   }
 
   changeTrack(track: Track): void {
     this.backend.getFile(track.file.path).pipe(first()).subscribe(media => {
-      const url = URL.createObjectURL(media);
+      const url = URL.createObjectURL(media.content);
       this.currentTrack = track;
       if (this.playing) {
-        this.howl.stop();
+        this.howl.unload();
       }
       this.howl = new Howl({
         src: url,
@@ -144,7 +124,7 @@ export class MusicPlayerService {
   }
 
   toggleShuffle(): void {
-    this.queue.config({ shuffle: true } as QueueSettings);
+    this.queue.config({ shuffle: !this.queue.config().shuffle } as QueueSettings);
   }
 
   // doesn't update UI

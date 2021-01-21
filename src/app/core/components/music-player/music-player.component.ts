@@ -24,12 +24,9 @@ export class MusicPlayerComponent implements OnInit {
     this.currentTrack$ = this.playerService.getCurrentTrack();
     this.currentPos$ = this.playerService.getPosition();
     this.positionPercentage$ = this.currentTrack$.pipe(switchMap(track => {
-      console.log('got value!');
-      return this.currentPos$.pipe(map(pos => (pos / (track.duration ?? 0)) * 100), tap(v => {
-        console.log('percentage ', v);
-        cd.detectChanges();
-      }));
-
+      return this.currentPos$.pipe(
+        map(pos => (pos / (track.duration ?? 0)) * 100),
+        tap(() => cd.detectChanges()));
     }));
   }
 

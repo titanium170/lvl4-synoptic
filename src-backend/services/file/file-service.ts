@@ -2,10 +2,12 @@ import { dialog } from 'electron';
 import { OpenDialogReturnValue } from 'electron/main';
 import { readFile } from 'fs';
 import { glob } from 'glob';
+import { IAudioMetadata } from 'music-metadata';
 
 export interface MatchedFile {
   path: string;
   content: Buffer;
+  metadata: IAudioMetadata;
 }
 
 
@@ -15,11 +17,15 @@ export class FileService {
 
 
   getFile(path: string): Promise<MatchedFile> {
-    return this.getFiles([path]).then(files => files[0]);
+    const paths = [];
+    if (path) {
+      paths.push(path);
+    }
+    return this.getFiles(paths).then(files => files[0]);
   }
 
   getFiles(paths: string[]): Promise<MatchedFile[]> {
-    if (paths) {
+    if (paths?.length) {
       return this.readFiles(paths);
     }
 
@@ -68,9 +74,9 @@ export class FileService {
           if (err) {
             console.error(err);
           } else {
-            files.push({ path: filePath, content });
+            files.push({ path: filePath, content, metadata: {} as IAudioMetadata });
           }
-          if (paths.length - 1 === paths.indexOf(filePath)) {
+          if (files.length === paths.length) {
             resolve(files);
           }
         });

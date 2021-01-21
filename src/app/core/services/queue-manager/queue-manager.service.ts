@@ -32,8 +32,11 @@ export class QueueManagerService {
     return this.queue$.asObservable();
   }
 
-  public config(settings: QueueSettings): void {
-    this.settings = { ...this.settings, ...settings };
+  public config(settings?: QueueSettings): QueueSettings {
+    if (settings) {
+      this.settings = { ...this.settings, ...settings };
+    }
+    return { ...this.settings };
   }
 
   // note q.length is not being updated

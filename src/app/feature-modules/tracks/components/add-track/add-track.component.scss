@@ -1,0 +1,12 @@
+.add-track__container {
+    position: fixed;
+    bottom: 0%;
+    padding-bottom: 80px;
+    right: 0;
+    padding-right: 5px;
+
+    & button {
+        width: 50px !important;
+        height: 50px !important;
+    }
+}

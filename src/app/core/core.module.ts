@@ -9,6 +9,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatMenuModule } from '@angular/material/menu';
+
 import { NavigationContainerComponent } from './components/navigation/navigation-container.component';
 import { SidenavComponent } from './components/navigation/sidenav/sidenav.component';
 import { MusicPlayerComponent } from './components/music-player/music-player.component';
@@ -23,7 +25,8 @@ import { MusicPlayerComponent } from './components/music-player/music-player.com
     MatListModule,
     RouterModule,
     MatSliderModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatMenuModule
   ],
   declarations: [MainNavComponent, NavigationContainerComponent, SidenavComponent, MusicPlayerComponent],
   exports: [NavigationContainerComponent]

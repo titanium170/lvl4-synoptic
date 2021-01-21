@@ -15,7 +15,7 @@
 .duration__container {
     display: flex;
     justify-content: center;
-    // padding-bottom: 0.25rem;
+    margin-bottom: -0.25rem;
 
     & .progress {
         width: 100%;
@@ -118,6 +118,34 @@ p {
     font-size: 1.8rem !important;
 
     & .mat-icon {
+        top: 0.25rem;
+        position: relative;
+    }
+}
+
+
+@media (max-width: 620px) {
+    .volume {
+        display: none !important;
+    }
+}
+
+@media (max-width: 450px) {
+
+    .next,
+    .previous,
+    .secondary-controls {
+        display: none !important;
+    }
+
+    .track-info {
+        flex: 1 1 90%;
+    }
+
+    .main-controls {
+        flex: 0 0 10%;
+        justify-content: right;
+        text-align: right;
         top: 0.25rem;
         position: relative;
     }

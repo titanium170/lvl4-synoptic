@@ -1,4 +1,5 @@
 import { InjectionToken, Injector } from '@angular/core';
+import { IAudioMetadata } from 'music-metadata';
 import { ElectronService } from 'ngx-electron';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -9,8 +10,15 @@ export enum SupportedBackends {
   electron = 'electron'
 }
 
+export interface MediaDataFile {
+  path: string;
+  content: Blob;
+  metadata: IAudioMetadata;
+}
+
 export interface IBackendService {
-  getFile: (path: string) => Observable<Blob>;
+  getFile: (path?: string) => Observable<MediaDataFile>;
+  userSelectFiles: () => Observable<MediaDataFile[]>;
   saveFile: (path: string, file: File) => Observable<void>;
 }
 

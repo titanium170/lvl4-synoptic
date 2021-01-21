@@ -1,8 +1,8 @@
 <div class="music-player__container">
   <div class="duration__container">
-    <div class="progress">
+    <div class="progress" *ngIf="(currentTrack$ | async )?.duration as duration">
       <mat-progress-bar mode="determinate" [value]="positionPercentage$ | async"></mat-progress-bar>
-      <p>{{ ((currentPos$ | async) * 1000) | date: 'mm:ss' }} / {{ (((currentTrack$ | async )?.duration || 0) * 1000)  | date: 'mm:ss'}}</p>
+      <p>{{ ( ((currentPos$ | async) || 0) * 1000) | date: 'mm:ss' }} / {{ (duration * 1000)  | date: 'mm:ss'}}</p>
     </div>
   </div>
   <div class="controls__container">
@@ -14,9 +14,6 @@
         <p class="track-name">{{ track.name }}</p>
         <p class="track-artist">{{ track.artist }}</p>
       </div>
-      <!-- <div class="track-duration">
-        <p>0:38</p>
-      </div> -->
     </div>
     <div class="main-controls control-group">
       <div class="previous">
