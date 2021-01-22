@@ -15,6 +15,10 @@ body {
 $app-primary: mat-palette($mat-indigo);
 $primary: mat-color($app-primary);
 
+.mat-menu-content button {
+    font-size: 1rem !important;
+}
+
 .toolbar .mat-form-field-underline {
     background-color: rgba($color: #fff, $alpha: 0.4) !important;
 }
@@ -37,23 +41,24 @@ $primary: mat-color($app-primary);
     background-color: rgba($color: #fff, $alpha: 0.8) !important;
 }
 
-/* width */
 ::-webkit-scrollbar {
     width: 8px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
     border-radius: 10px;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
     background: rgba($color: #000, $alpha: 0.3);
     border-radius: 10px;
 }
 
-// /* Handle on hover */
-// ::-webkit-scrollbar-thumb:hover {
-//     background: #b30000;
-// }
+.mat-spinner {
+    display: inline-block !important;
+}
+
+.mat-spinner svg {
+    width: 50px !important;
+    height: 50px !important;
+}

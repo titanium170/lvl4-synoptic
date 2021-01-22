@@ -1,3 +1,4 @@
+import { tap } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
 import { PlaylistService } from './../../services/playlist/playlist.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -14,7 +15,7 @@ export class PlaylistsHomePageComponent implements OnInit, OnDestroy {
   public playlists$: Observable<Playlist[]>;
   public sub: Subscription;
 
-  constructor(private playlistService: PlaylistService, private title: Title) {
+  constructor(private playlistService: PlaylistService, title: Title) {
     title.setTitle('Your playlists');
     this.playlists$ = this.playlistService.getPlaylists();
     this.sub = this.playlistService.addedPlaylists().subscribe(playlists => {

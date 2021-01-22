@@ -1,16 +1,9 @@
 import { TrackedEntitiy } from './tracked-entity';
 import { IMediaFile } from './media-file';
-import { v4 as uuidv4 } from 'uuid';
-
-export interface TrackInfo {
-  name: string;
-  artist: string;
-  album: string;
-  duration: number; // Todo: change this when adding the add track feature
-}
 
 
-export class Track extends TrackedEntitiy implements TrackInfo {
+
+export class Track extends TrackedEntitiy implements Track {
 
   public name: string;
   public artist: string;

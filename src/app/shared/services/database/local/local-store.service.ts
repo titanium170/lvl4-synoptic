@@ -27,11 +27,9 @@ export class LocalStoreService {
       if (!store) {
         store = { tracks: [], playlists: [] } as LocalStore;
       }
-      console.log('store: ', store);
       this.store = store;
       this.onReady$.next();
     }, err => {
-      console.log('store got error: ', err);
       this.store = { tracks: [], playlists: [] } as LocalStore;
       this.onReady$.next();
     });
@@ -42,7 +40,9 @@ export class LocalStoreService {
   }
 
   public getTracks(): Observable<Track[]> {
-    return this.onReady().pipe(map(() => this.store.tracks));
+    return this.onReady().pipe(map(() => {
+      return this.store.tracks;
+    }));
   }
 
   public getPlaylists(): Observable<Playlist[]> {
@@ -63,8 +63,11 @@ export class LocalStoreService {
   public savePlaylists(playlists: Playlist[]): Observable<Playlist[]> {
     return this.onReady().pipe(switchMap(() => {
       for (const playlist of playlists) {
-        if (!this.store.playlists.map(t => t.id).includes(playlist.id)) {
+        const existingPlaylistIndex = this.store.playlists.map(p => p.id).indexOf(playlist.id);
+        if (existingPlaylistIndex === -1) {
           this.store.playlists.push(playlist);
+        } else {
+          this.store.playlists[existingPlaylistIndex] = playlist;
         }
       }
       return this.saveStore().pipe(map(() => playlists));
@@ -75,7 +78,6 @@ export class LocalStoreService {
   private getStore(): Observable<LocalStore> {
     return this.backend.getFile('appdata').pipe(switchMap(store => {
       return from((store.file as File).text()).pipe(map(text => {
-        console.log('parsing: ', text);
         return JSON.parse(text);
       }));
     }

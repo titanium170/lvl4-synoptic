@@ -73,16 +73,19 @@ export class MusicPlayerService {
   setDefaults(): void {
     this.playing$.next(false);
     this.trackService.getTracks().subscribe(tracks => {
+      console.log('got tracks in music-player');
       this.queue.replaceQueue(new Queue(tracks));
       this.trackQueueChanges();
     });
   }
 
   changeTrack(track: Track, playImmediately = false): void {
+    console.log('trying to change track');
     this.mediaService.getMediaFile(track.file.path).pipe(first()).subscribe(media => {
+      console.log('changing track');
       const url = URL.createObjectURL(media.content);
       this.currentTrack = track;
-      if (this.playing) {
+      if (this.playing && this.howl) {
         this.howl.unload();
       }
       this.howl = new Howl({
@@ -95,26 +98,22 @@ export class MusicPlayerService {
       } else if (playImmediately) {
         this.play();
       }
-
+      console.log('changed track');
     });
   }
 
   play(): void {
-    console.log('trying to play');
     if (this.currentTrack && !this.playing) {
       this.playing = true;
       this.howl.play();
-      console.log('playing!');
     }
 
   }
 
   pause(): void {
-    console.log('trying to pause');
     if (this.currentTrack && this.playing) {
       this.playing = false;
       this.howl.pause();
-      console.log('paused!');
     }
   }
 

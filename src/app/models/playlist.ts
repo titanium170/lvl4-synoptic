@@ -1,18 +1,17 @@
 import { TrackedEntitiy } from './tracked-entity';
-import { TrackInfo } from './track';
-import { v4 as uuidv4 } from 'uuid';
+import { Track } from './track';
 
 export interface IPlaylist {
   name: string;
-  tracks: TrackInfo[];
+  tracks: Track[];
 }
 
 export class Playlist extends TrackedEntitiy implements IPlaylist {
 
   public name: string;
-  public tracks: TrackInfo[];
+  public tracks: Track[];
 
-  constructor(name: string, tracks: TrackInfo[]) {
+  constructor(name: string, tracks: Track[]) {
     super();
     this.name = name;
     this.tracks = tracks;

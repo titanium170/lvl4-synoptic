@@ -10,8 +10,19 @@
     <p>{{(track.duration * 1000) | date: 'mm:ss'}}</p>
   </div>
   <div class="track-options">
-    <button mat-icon-button aria-label="Track Options" (click)="showOptions()">
+    <button mat-icon-button aria-label="Track Options" [matMenuTriggerFor]="menu">
       <mat-icon inline="true">more_vert</mat-icon>
     </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item [matMenuTriggerFor]="playlistMenu">Add to playlist</button>
+    </mat-menu>
+    <mat-menu #playlistMenu="matMenu">
+      <ng-container *ngIf="playlists?.length; else noPlaylists">
+        <button mat-menu-item *ngFor="let playlist of playlists" (click)="addToPlaylist(playlist)" [disabled]="disabledPlaylists.includes(playlist.id)">{{playlist.name}}</button>
+      </ng-container>
+      <ng-template #noPlaylists>
+        <p>No playlists to show</p>
+      </ng-template>
+    </mat-menu>
   </div>
 </div>

@@ -1,3 +1,6 @@
+import { SharedModule } from './shared/shared.module';
+import { PlaylistsModule } from './feature-modules/playlists/playlists.module';
+import { TracksModule } from './feature-modules/tracks/tracks.module';
 import { ElectronService } from 'ngx-electron';
 import { backendServiceFactory, BACKEND_SERVICE } from './shared/services/backend/backend.service';
 import { CoreModule } from './core/core.module';
@@ -21,7 +24,10 @@ import { MatDialogModule } from '@angular/material/dialog';
     AppRoutingModule,
     CoreModule,
     MatDialogModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    TracksModule,
+    PlaylistsModule,
+    SharedModule
   ],
   providers: [
     {

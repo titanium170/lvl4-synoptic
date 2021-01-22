@@ -7,7 +7,6 @@ function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     height: 600,
-    // icon: path.join(__dirname, '../dist/favicon.ico'),
     webPreferences: {
       nodeIntegration: true
     },
@@ -16,11 +15,9 @@ function createWindow() {
   });
 
   // and load the index.html of the app.
-  // mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
-  mainWindow.loadURL('http://localhost:4200/');
+  mainWindow.loadFile(path.join(__dirname, './dist/index.html'));
+  // mainWindow.loadURL('http://localhost:4200/');
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
 }
 
 // This method will be called when Electron has finished

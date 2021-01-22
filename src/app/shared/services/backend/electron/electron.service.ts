@@ -21,9 +21,7 @@ export class ElectronCommsService implements IBackendService {
     this.electron.ipcRenderer.once('file-request-err', errorListener);
     this.electron.ipcRenderer.once('file-response',
       (event: IpcRendererEvent, response: { path: string, content: Buffer }) => {
-        console.log('got file: ', path);
         if (!path || response.path === path || path === 'appdata') {
-          console.log('parsing blob');
           const blob = new Blob([response.content.buffer], { type: 'audio/mpeg' });
           gotFile$.next({ file: blob, path: response.path });
           gotFile$.complete();

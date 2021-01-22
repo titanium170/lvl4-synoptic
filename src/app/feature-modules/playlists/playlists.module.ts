@@ -1,3 +1,4 @@
+import { TracksModule } from './../tracks/tracks.module';
 import { MatButtonModule } from '@angular/material/button';
 import { PlaylistService } from './services/playlist/playlist.service';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,18 +19,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 
 
-const routes: Route[] = [
-  {
-    path: '',
-    component: PlaylistsHomePageComponent
-  },
-  {
-    path: ':id',
-    component: PlaylistOverviewPageComponent
-  }
-];
-
-
 @NgModule({
   declarations: [
     PlaylistsHomePageComponent,
@@ -40,14 +29,15 @@ const routes: Route[] = [
     AddPlaylistDialogComponent],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes),
+    RouterModule,
     MatCardModule,
     MatDialogModule,
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
     FormsModule,
-    MatIconModule
+    MatIconModule,
+    TracksModule
   ],
   providers: [
     {

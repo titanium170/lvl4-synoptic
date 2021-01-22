@@ -1,1 +1,12 @@
-<p>playlist__tracklist is working</p>
+<div class="playlist-tracklist">
+  <div class="tracklist" *ngIf="tracks$ | async as tracks">
+    <ng-container *ngIf="tracks.length; else noTracks">
+      <ng-container *ngFor="let track of tracks">
+        <app-track [track]="track" [playlists]="playlists$ | async"></app-track>
+      </ng-container>
+    </ng-container>
+  </div>
+  <ng-template #noTracks>
+    <p style="width: 100%; text-align: center; padding-top: 2rem;">You haven't added any tracks to this playlist yet</p>
+  </ng-template>
+</div>

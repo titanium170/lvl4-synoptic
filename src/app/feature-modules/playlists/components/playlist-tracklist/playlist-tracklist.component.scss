@@ -1,0 +1,11 @@
+.playlist-tracklist {
+    overflow-y: auto;
+    max-height: 80vh;
+
+    &:after {
+        content: "";
+        display: block;
+        height: 5rem;
+        width: 100%;
+    }
+}

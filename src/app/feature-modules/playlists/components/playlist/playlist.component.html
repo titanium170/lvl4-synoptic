@@ -1,9 +1,11 @@
 <div class="playlist__container">
-  <mat-card class="card">
-    <img mat-card-image src="/assets/images/default-album-art.png" alt="Album art">
-    <mat-card-header>
-      <mat-card-title>{{playlist.name}}</mat-card-title>
-      <mat-card-subtitle>{{playlist.tracks.length}} Songs</mat-card-subtitle>
-    </mat-card-header>
-  </mat-card>
+  <a [routerLink]="[playlist.id]">
+    <mat-card class="card">
+      <img mat-card-image src="/assets/images/default-album-art.png" alt="Album art">
+      <mat-card-header>
+        <mat-card-title>{{playlist.name}}</mat-card-title>
+        <mat-card-subtitle>{{playlist.tracks.length}} Songs</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+  </a>
 </div>
