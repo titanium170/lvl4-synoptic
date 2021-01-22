@@ -14,6 +14,6 @@ export class AddPlaylistComponent implements OnInit {
   }
 
   add(): void {
-    this.playlistService.addPlaylist();
+    this.playlistService.addPlaylist().subscribe();
   }
 }

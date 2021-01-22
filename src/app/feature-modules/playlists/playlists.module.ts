@@ -1,3 +1,6 @@
+import { MatButtonModule } from '@angular/material/button';
+import { PlaylistService } from './services/playlist/playlist.service';
+import { MatIconModule } from '@angular/material/icon';
 import { Route, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -7,7 +10,7 @@ import { PlaylistComponent } from './components/playlist/playlist.component';
 import { PlaylistTracklistComponent } from './components/playlist-tracklist/playlist-tracklist.component';
 
 import { MatCardModule } from '@angular/material/card';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { AddPlaylistComponent } from './components/add-playlist/add-playlist.component';
 import { AddPlaylistDialogComponent } from './components/add-playlist-dialog/add-playlist-dialog.component';
 import { MatInputModule } from '@angular/material/input';
@@ -42,7 +45,17 @@ const routes: Route[] = [
     MatDialogModule,
     MatInputModule,
     MatFormFieldModule,
-    FormsModule
+    MatButtonModule,
+    FormsModule,
+    MatIconModule
+  ],
+  providers: [
+    {
+      provide: MatDialogRef,
+      useValue: {}
+    },
+    MatDialog,
+    PlaylistService
   ]
 })
 export class PlaylistsModule { }

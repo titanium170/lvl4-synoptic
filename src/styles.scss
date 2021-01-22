@@ -15,25 +15,25 @@ body {
 $app-primary: mat-palette($mat-indigo);
 $primary: mat-color($app-primary);
 
-.mat-form-field-underline {
+.toolbar .mat-form-field-underline {
     background-color: rgba($color: #fff, $alpha: 0.4) !important;
 }
 
-.mat-form-field-label {
+.toolbar .mat-form-field-label {
     color: rgba($color: #fff, $alpha: 0.8) !important;
 }
 
-.mat-form-field-infix {
+.toolbar .mat-form-field-infix {
     border-top: none !important;
     margin-top: 0.25rem !important;
 }
 
-.mat-input-element {
+.toolbar .mat-input-element {
     caret-color: rgba($color: #fff, $alpha: 0.8) !important;
     // background-color: rgba($color: #fff, $alpha: 0.1);
 }
 
-.mat-focused .mat-form-field-ripple {
+.toolbar .mat-focused .mat-form-field-ripple {
     background-color: rgba($color: #fff, $alpha: 0.8) !important;
 }
 

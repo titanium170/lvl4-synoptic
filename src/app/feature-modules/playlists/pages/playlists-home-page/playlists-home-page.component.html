@@ -1,5 +1,13 @@
 <div class="playlists__container">
-  <div class="card-container" *ngFor="let i of [1, 2, 3, 4]">
-    <app-playlist></app-playlist>
-  </div>
+  <ng-container *ngIf="playlists$ | async as playlists">
+    <ng-container *ngIf="playlists.length else noPlaylists">
+      <div class="card-container" *ngFor="let playlist of playlists">
+        <app-playlist [playlist]="playlist"></app-playlist>
+      </div>
+    </ng-container>
+  </ng-container>
+  <ng-template #noPlaylists>
+    <p style="width: 100%; text-align: center; padding-top: 2rem;">You haven't added any playlists yet</p>
+  </ng-template>
+  <app-add-playlist></app-add-playlist>
 </div>

@@ -3,25 +3,44 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddPlaylistDialogComponent } from '../../components/add-playlist-dialog/add-playlist-dialog.component';
 import { Playlist } from 'src/app/models/playlist';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable, Subject } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { TrackInfo } from 'src/app/models/track';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlaylistService {
 
+  private addedPlaylists$: Subject<Playlist[]>;
 
-  constructor(public dialog: MatDialog, private store: LocalStoreService) { }
+  constructor(public dialog: MatDialog, private store: LocalStoreService) {
+    this.addedPlaylists$ = new Subject();
+  }
+
+  public addedPlaylists(): Observable<Playlist[]> {
+    return this.addedPlaylists$.asObservable();
+  }
 
   public getPlaylists(): Observable<Playlist[]> {
     return this.store.getPlaylists();
   }
 
-  public addPlaylist(): void {
+  public addPlaylist(): Observable<Playlist[]> {
     const dialogRef = this.dialog.open(AddPlaylistDialogComponent, { width: '250px' });
-    dialogRef.afterClosed().subscribe(playlistName => {
-      const playlist = new Playlist(playlistName, []);
-      this.store.savePlaylists([playlist]);
-    });
+    return dialogRef.afterClosed().pipe(switchMap(playlistName => {
+      if (playlistName) {
+        const playlist = new Playlist(playlistName, []);
+        return this.store.savePlaylists([playlist])
+          .pipe(tap(playlists => this.addedPlaylists$.next(playlists)));
+      }
+      return EMPTY;
+    }));
+  }
+
+  public getPlaylistTracks(playlistId: string): Observable<TrackInfo[]> {
+    return this.store.getPlaylists().pipe(
+      map(playlists => playlists.find(p => p.id === playlistId)?.tracks ?? [])
+    );
   }
 }
