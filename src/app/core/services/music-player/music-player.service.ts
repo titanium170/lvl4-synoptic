@@ -78,7 +78,7 @@ export class MusicPlayerService {
     });
   }
 
-  changeTrack(track: Track): void {
+  changeTrack(track: Track, playImmediately = false): void {
     this.mediaService.getMediaFile(track.file.path).pipe(first()).subscribe(media => {
       const url = URL.createObjectURL(media.content);
       this.currentTrack = track;
@@ -92,7 +92,10 @@ export class MusicPlayerService {
       });
       if (this.playing) {
         this.howl.play();
+      } else if (playImmediately) {
+        this.play();
       }
+
     });
   }
 

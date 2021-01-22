@@ -6,13 +6,26 @@
     <span>{{title}}</span>
     <div class="spacer"></div>
   </div>
-  <div style="float: right;">
-    <button mat-icon-button color="white" aria-label="Sorting options" [matMenuTriggerFor]="menu">
-      <mat-icon>sort</mat-icon>
-    </button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item>Sort by A-Z</button>
-      <button mat-menu-item>Sort by Album</button>
-    </mat-menu>
+  <div class="buttons-right">
+    <div class="search">
+      <form [hidden]="!showSearch">
+        <mat-form-field class="example-full-width">
+          <mat-label color="white">Search tracks...</mat-label>
+          <input name="search" matInput color="white" type="search" [(ngModel)]="searchValue" (ngModelChange)="search($event)" cdkFocusInitial>
+        </mat-form-field>
+      </form>
+      <button mat-icon-button color="white" aria-label="Search" (click)="openSearch()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
+    <div class="sort">
+      <button mat-icon-button color="white" aria-label="Sorting options" [matMenuTriggerFor]="menu">
+        <mat-icon>sort</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="sort('az')">Sort by A-Z</button>
+        <button mat-menu-item (click)="sort('album')">Sort by Album</button>
+      </mat-menu>
+    </div>
   </div>
 </div>

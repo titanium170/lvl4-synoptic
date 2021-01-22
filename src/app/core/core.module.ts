@@ -10,10 +10,13 @@ import { MatListModule } from '@angular/material/list';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { NavigationContainerComponent } from './components/navigation/navigation-container.component';
 import { SidenavComponent } from './components/navigation/sidenav/sidenav.component';
 import { MusicPlayerComponent } from './components/music-player/music-player.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -26,7 +29,10 @@ import { MusicPlayerComponent } from './components/music-player/music-player.com
     RouterModule,
     MatSliderModule,
     MatProgressBarModule,
-    MatMenuModule
+    MatMenuModule,
+    MatInputModule,
+    MatFormFieldModule,
+    FormsModule
   ],
   declarations: [MainNavComponent, NavigationContainerComponent, SidenavComponent, MusicPlayerComponent],
   exports: [NavigationContainerComponent]

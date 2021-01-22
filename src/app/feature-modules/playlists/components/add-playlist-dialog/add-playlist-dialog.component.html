@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Add playlist</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Playlist name</mat-label>
+    <input matInput [(ngModel)]="playlistName">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="dialogRef.close()">Cancel</button>
+  <button mat-button [mat-dialog-close]="playlistName" cdkFocusInitial>Ok</button>
+</div>

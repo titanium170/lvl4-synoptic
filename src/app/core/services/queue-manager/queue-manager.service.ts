@@ -116,6 +116,19 @@ export class QueueManagerService {
     });
   }
 
+  public changeTrack(trackId: string): void {
+    this.queue$.pipe(first()).subscribe(q => {
+      q.current = q.tracklist[q.tracklist.map(t => t.id).indexOf(trackId)];
+      if (this.settings.shuffle) {
+        q.tracklist = shuffle(q.tracklist);
+      }
+      const newIndex = q.tracklist.map(t => t.id).indexOf(q.current.id);
+      q.next = this.getNext(q.tracklist, newIndex + 1);
+      q.prev = this.getPrev(q.tracklist, newIndex + 1);
+      this.queue$.next(q);
+    });
+  }
+
   private getNext(tracklist: Track[], index: number): Track {
     if (index >= tracklist.length) {
       if (this.settings.loop) {

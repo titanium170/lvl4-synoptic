@@ -6,6 +6,14 @@ import { PlaylistOverviewPageComponent } from './pages/playlist-overview-page/pl
 import { PlaylistComponent } from './components/playlist/playlist.component';
 import { PlaylistTracklistComponent } from './components/playlist-tracklist/playlist-tracklist.component';
 
+import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
+import { AddPlaylistComponent } from './components/add-playlist/add-playlist.component';
+import { AddPlaylistDialogComponent } from './components/add-playlist-dialog/add-playlist-dialog.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
+
 
 const routes: Route[] = [
   {
@@ -20,10 +28,21 @@ const routes: Route[] = [
 
 
 @NgModule({
-  declarations: [PlaylistsHomePageComponent, PlaylistOverviewPageComponent, PlaylistComponent, PlaylistTracklistComponent],
+  declarations: [
+    PlaylistsHomePageComponent,
+    PlaylistOverviewPageComponent,
+    PlaylistComponent,
+    PlaylistTracklistComponent,
+    AddPlaylistComponent,
+    AddPlaylistDialogComponent],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    MatCardModule,
+    MatDialogModule,
+    MatInputModule,
+    MatFormFieldModule,
+    FormsModule
   ]
 })
 export class PlaylistsModule { }

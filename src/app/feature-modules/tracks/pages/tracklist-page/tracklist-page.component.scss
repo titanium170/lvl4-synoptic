@@ -1,0 +1,16 @@
+.tracklist {
+    overflow-y: auto;
+    max-height: 80vh;
+
+    &:after {
+        content: "";
+        display: block;
+        height: 5rem;
+        width: 100%;
+    }
+}
+
+// .tracklist__container {
+//     overflow: hidden;
+//     max-height: 85vh;
+// }

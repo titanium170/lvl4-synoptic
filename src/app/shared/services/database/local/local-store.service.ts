@@ -31,10 +31,9 @@ export class LocalStoreService {
       this.store = store;
       this.onReady$.next();
     }, err => {
-      if (err.message.includes('ENOENT')) {
-        this.store = { tracks: [], playlists: [] } as LocalStore;
-        this.onReady$.next();
-      }
+      console.log('store got error: ', err);
+      this.store = { tracks: [], playlists: [] } as LocalStore;
+      this.onReady$.next();
     });
   }
 
@@ -51,14 +50,12 @@ export class LocalStoreService {
   }
 
   public saveTracks(tracks: Track[]): Observable<Track[]> {
-    debugger;
     return this.onReady().pipe(switchMap(() => {
       for (const track of tracks) {
         if (!this.store.tracks.map(t => t.id).includes(track.id)) {
           this.store.tracks.push(track);
         }
       }
-      debugger;
       return this.saveStore().pipe(map(() => tracks));
     }));
   }
@@ -78,6 +75,7 @@ export class LocalStoreService {
   private getStore(): Observable<LocalStore> {
     return this.backend.getFile('appdata').pipe(switchMap(store => {
       return from((store.file as File).text()).pipe(map(text => {
+        console.log('parsing: ', text);
         return JSON.parse(text);
       }));
     }

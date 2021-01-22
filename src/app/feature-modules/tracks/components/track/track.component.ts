@@ -1,3 +1,4 @@
+import { MusicPlayerService } from './../../../../core/services/music-player/music-player.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Track } from 'src/app/models/track';
 
@@ -11,7 +12,7 @@ export class TrackComponent implements OnInit {
   @Input() track!: Track;
   @Input() active = false;
 
-  constructor() { }
+  constructor(private player: MusicPlayerService) { }
 
   ngOnInit(): void {
   }
@@ -20,4 +21,7 @@ export class TrackComponent implements OnInit {
 
   }
 
+  playTrack(): void {
+    this.player.changeTrack(this.track, true);
+  }
 }

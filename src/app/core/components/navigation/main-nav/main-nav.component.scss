@@ -25,3 +25,30 @@
     width: 100%;
     -webkit-app-region: drag;
 }
+
+.buttons-right {
+    display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+}
+
+.search {
+    display: flex;
+}
+
+textarea {
+    max-height: 0.75rem;
+    resize: none;
+}
+
+.mat-form-field {
+    max-height: 1rem;
+}
+
+.mat-form-field-underline {
+    background-color: rgba($color: #fff, $alpha: 0.8);
+}
+
+.mat-form-field-label {
+    color: rgba($color: #fff, $alpha: 0.8);
+}
